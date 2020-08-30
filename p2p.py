@@ -34,7 +34,7 @@ class P2P:
         # Серверный соккет
         self.server_socket = socket.socket()
         # Таймаут сервера
-        self.server_socket.settimeout(0.2)
+        self.server_socket.settimeout(2)
         # Бинд сервера
         self.server_socket.bind(('', _port))
         self.server_socket.listen(self.max_clients)
@@ -55,14 +55,9 @@ class P2P:
             return
         try:
             self.__add_user(_address)
-            # thread = Thread(target=self.__connect, args=(_address, 1))
-            # thread.start()
-            # thread.join(0)
             self.__connect(_address)
-            self.log.save_data('!!!!!')
             connection, address = self.server_socket.accept()
-            self.log.save_data('!!!!!')
-            connection.settimeout(0.2)
+            connection.settimeout(2)
         except OSError:
             self.log.save_data("Failed to create session with {}".format(_address))
             self.__del_user(_address)

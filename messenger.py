@@ -60,5 +60,7 @@ commands = {
 }
 
 while p2p.running:
-    com = input(': ').replace(' ', '').lower()
-    commands[com]() if com in commands else print('There is no command like this')
+    # com = input(': ').replace(' ', '').lower()
+    # commands[com]() if com in commands else print('There is no command like this')
+    print(p2p.client_sockets)
+    time.sleep(0.5)
