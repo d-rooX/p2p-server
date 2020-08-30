@@ -58,7 +58,9 @@ class P2P:
             thread = Thread(target=self.__connect, args=(_address, 1))
             thread.start()
             thread.join(0)
+            self.log.save_data('!!!!!')
             connection, address = self.server_socket.accept()
+            self.log.save_data('!!!!!')
             connection.settimeout(0.2)
         except OSError:
             self.log.save_data("Failed to create session with {}".format(_address))
