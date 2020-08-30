@@ -1,4 +1,4 @@
-from serv_src import P2P
+from p2p import P2P
 import threading
 import time
 # create_session()
@@ -22,7 +22,7 @@ def option_connect():
     except Exception as e:
         print('Connection failed')
         print(e)
-    print('Connection succsesfully created')
+    print('Connection successfully created')
     while True:
         if p2p.check_request(ADDRESS):
             print('Request: ')
