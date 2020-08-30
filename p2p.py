@@ -36,7 +36,7 @@ class P2P:
         # Таймаут сервера
         self.server_socket.settimeout(0.2)
         # Бинд сервера
-        self.server_socket.bind(('localhost', _port))
+        self.server_socket.bind(('', _port))
         self.server_socket.listen(self.max_clients)
         self.log = Log("server.log")
         self.log.save_data("Server initialized")
@@ -55,9 +55,10 @@ class P2P:
             return
         try:
             self.__add_user(_address)
-            thread = Thread(target=self.__connect, args=(_address, 1))
-            thread.start()
-            thread.join(0)
+            # thread = Thread(target=self.__connect, args=(_address, 1))
+            # thread.start()
+            # thread.join(0)
+            self.__connect(_address)
             self.log.save_data('!!!!!')
             connection, address = self.server_socket.accept()
             self.log.save_data('!!!!!')
@@ -89,7 +90,7 @@ class P2P:
             pass
 
     # Подключается к пользователю
-    def __connect(self, _address: str, *args):
+    def __connect(self, _address: str):
         ind = self.__get_ind_by_address(_address)
         try:
             self.client_sockets[ind].connect((_address, self.port))

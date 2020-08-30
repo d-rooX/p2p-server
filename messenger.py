@@ -25,6 +25,7 @@ def connect():
             print(f'Connection to {ADDRESS} succeed')
         else:
             print(f'Connection to {ADDRESS} failed')
+            thread.join()
     else:
         print(f'You are already connected to {ADDRESS}')
 def disconnect():
@@ -40,10 +41,16 @@ def connection_list():
     for ind, ip in enumerate(p2p.clients_ip):
         if ip != '':
             print(f'{ind}) --> {ip}')
-
 def serv_exit():
     print('Closing...')
     p2p.kill_server()
+def connections_handler():
+    while p2p.running:
+        old_l = p2p.clients_ip
+        time.sleep(2)
+        if old_l != p2p.clients_ip:
+            print('There is new connection')
+
 
 commands = {
     'connect': connect,
