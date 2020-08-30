@@ -1,5 +1,6 @@
 from p2p import P2P
 import threading
+import time
 
 # create_session()
 # close_connection()
@@ -10,20 +11,20 @@ import threading
 # check_request
 # check_address
 
-PORT = 1337
+PORT = 11337
 MAX_CLIENTS = 2
 p2p = P2P(PORT, MAX_CLIENTS)
 
 def connect():
     ADDRESS = input('IP: ')
     if not p2p.check_address(ADDRESS):
-        try:
-            thread = threading.Thread(target=p2p.create_session, name=ADDRESS, args=(ADDRESS,))
-            thread.start()
-        except:
-            print(f'Connection with {ADDRESS} failed')
+        thread = threading.Thread(target=p2p.create_session, name=ADDRESS, args=(ADDRESS,))
+        thread.start()
+        time.sleep(1)
+        if p2p.check_address(ADDRESS):
+            print(f'Connection to {ADDRESS} succeed')
         else:
-            print(f'Connection with {ADDRESS} succeed')
+            print(f'Connection to {ADDRESS} failed')
     else:
         print(f'You are already connected to {ADDRESS}')
 def disconnect():
@@ -32,8 +33,8 @@ def disconnect():
     ADDRESS = p2p.clients_ip[ind]
     try:
         p2p.close_connection(ADDRESS)
-    except:
-        print('Some error')
+    except KeyError:
+        pass
     print(f'Connection closed with {ADDRESS}')
 def connection_list():
     for ind, ip in enumerate(p2p.clients_ip):
@@ -43,9 +44,6 @@ def connection_list():
 def serv_exit():
     print('Closing...')
     p2p.kill_server()
-def chat():
-    pass
-
 
 commands = {
     'connect': connect,
